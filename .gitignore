@@ -1,0 +1,8 @@
+server/node_modules
+client/node_modules
+client/.cache
+public/bundle/*
+.DS_Store
+client/.DS_Store
+server/.DS_Store
+node_modules

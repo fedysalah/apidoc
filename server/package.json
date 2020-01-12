@@ -1,0 +1,21 @@
+{
+  "name": "react-express-server",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node index",
+    "start-dev": "MODE=DEV node index"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.3",
+    "express": "4.16.3",
+    "express-handlebars": "^3.1.0",
+    "express-validator": "3.2.0",
+    "resolve": "1.6.0"
+  },
+  "devDependencies": {
+    "fs-extra": "3.0.1"
+  }
+}
