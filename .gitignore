@@ -1,6 +1,7 @@
 server/node_modules
 client/node_modules
 client/.cache
+client/dist
 public/bundle/*
 .DS_Store
 client/.DS_Store

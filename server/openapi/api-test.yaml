@@ -1,0 +1,9 @@
+openapi: 3.0.0
+info:
+  title: Api Test
+  version: '1.0'
+servers: []
+paths: {}
+components:
+  schemas: {}
+  securitySchemes: {}

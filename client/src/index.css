@@ -1,11 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Rubik');
-@import url('https://fonts.googleapis.com/css?family=Rubik+Mono+One');
 
 body {
   font-family: 'Rubik';
   background-color: #37474f;
   margin: 0;
   padding: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }

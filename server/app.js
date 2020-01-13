@@ -3,6 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const exphbs = require('express-handlebars');
+const redoc = require('redoc-express');
 const app = express();
 
 
@@ -31,9 +32,18 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.resolve(__dirname, '..', 'public')));
 
-app.post('/api/hello', function (req, res) {
-    const ratings = req.body.ratings;
-    res.json({});
+
+app.get(
+    `/redoc`,
+    redoc({
+      title: 'Documentation',
+      specUrl: 'http://localhost:3000/openapi/api-test.yaml',
+    })
+  );
+
+
+app.get('/openapi/api-test.yaml', function (req, res) {
+    res.sendFile(path.join(__dirname,  'openapi', 'api-test.yaml'));
 });
 
 app.get('/*', function (req, res) {
