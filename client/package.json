@@ -1,51 +1,75 @@
 {
-    "name": "react-express-client",
-    "version": "0.1.0",
-    "private": true,
-    "dependencies": {
-      "react": "16.12.0",
-      "react-dom": "16.12.0"
-    },
-    "devDependencies": {
-      "@babel/core": "^7.0.0-0",
-      "@babel/plugin-proposal-class-properties": "^7.4.0",
-      "@babel/plugin-transform-runtime": "^7.4.0",
-      "@babel/preset-env": "7.2.3",
-      "@babel/preset-react": "7.0.0",
-      "parcel-bundler": "1.12.4",
-      "prettier": "1.15.2"
-    },
-    "babel": {
-      "presets": [
-        [
-          "@babel/preset-env",
-          {
-            "useBuiltIns": "entry"
-          }
-        ]
-      ],
-      "plugins": [
-        [
-          "@babel/plugin-transform-runtime",
-          {
-            "corejs": false,
-            "helpers": true,
-            "regenerator": true,
-            "useESModules": false
-          }
-        ],
-        [
-          "@babel/plugin-proposal-class-properties",
-          {
-            "loose": false
-          },
-          "some fucking name"
-        ]
+  "name": "react-express-client",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel serve --port 3001 src/index.js --global JS",
+    "build": "parcel build src/index.js --out-dir ../public/bundle --global JS"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-0",
+    "@babel/plugin-proposal-class-properties": "^7.5.0",
+    "@babel/plugin-proposal-decorators": "^7.4.4",
+    "@babel/plugin-proposal-do-expressions": "^7.2.0",
+    "@babel/plugin-proposal-export-default-from": "^7.2.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.2.0",
+    "@babel/plugin-proposal-function-bind": "^7.2.0",
+    "@babel/plugin-proposal-function-sent": "^7.2.0",
+    "@babel/plugin-proposal-logical-assignment-operators": "^7.2.0",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.4.4",
+    "@babel/plugin-proposal-numeric-separator": "^7.2.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.2.0",
+    "@babel/plugin-proposal-pipeline-operator": "^7.3.2",
+    "@babel/plugin-proposal-throw-expressions": "^7.2.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-syntax-import-meta": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "7.2.3",
+    "@babel/preset-react": "^7.0.0",
+    "babel-plugin-syntax-async-functions": "^6.13.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-regenerator": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "parcel-bundler": "1.12.3"
+  },
+  "dependencies": {
+    "bootstrap": "4.3.1",
+    "jquery": "3.4.1",
+    "lodash": "4.17.13",
+    "moment": "^2.24.0",
+    "popper.js": "^1.14.7",
+    "react": ">=0.14.7",
+    "react-dom": "^0.13.0 || ^0.14.0 || ^15.0.1 || ^16.0.0"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "useBuiltIns": "entry"
+        }
       ]
-    },
-    "scripts": {
-      "start": "parcel serve --port 3001 src/index.js --global JS",
-      "build": "parcel build src/index.js --out-dir ../public/bundle --global JS"
-    }
+    ],
+    "plugins": [
+      [
+        "@babel/plugin-transform-runtime",
+        {
+          "corejs": false,
+          "helpers": true,
+          "regenerator": true,
+          "useESModules": false
+        }
+      ],
+      [
+        "@babel/plugin-proposal-class-properties",
+        {
+          "loose": false
+        },
+        "some fucking name"
+      ]
+    ]
   }
-  
+}
+
