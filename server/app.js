@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const expressValidator = require('express-validator');
 const compression = require('compression');
 const exphbs = require('express-handlebars');
 const app = express();
@@ -28,12 +27,11 @@ app.use(function (req, res, next) {
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(expressValidator());
 
 
 app.use(express.static(path.resolve(__dirname, '..', 'public')));
 
-app.post('/api/syncRatings', function (req, res) {
+app.post('/api/hello', function (req, res) {
     const ratings = req.body.ratings;
     res.json({});
 });
