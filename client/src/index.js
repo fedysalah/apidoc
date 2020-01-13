@@ -4,7 +4,7 @@ import './index.css';
 
 export function init(config) {
     ReactDOM.render(
-    <div>{'Hello Fedy '}</div>,
+    <div>{'Hello Fedy salah'}</div>,
       document.getElementById('root')
     );
   }
