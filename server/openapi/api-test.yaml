@@ -3,7 +3,40 @@ info:
   title: Api Test
   version: '1.0'
 servers: []
-paths: {}
+paths:
+  /users:
+    get:
+      summary: List users
+      tags:
+        - Users
+      responses:
+        '200':
+          description: OK
+      operationId: get-users
+      security:
+        - Token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
 components:
-  schemas: {}
-  securitySchemes: {}
+  schemas:
+    User:
+      title: User
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        lastName:
+          type: string
+        '':
+          type: string
+  securitySchemes:
+    Token:
+      type: http
+      scheme: bearer
+tags:
+  - name: Users
