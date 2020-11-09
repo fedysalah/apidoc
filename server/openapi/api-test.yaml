@@ -2,6 +2,7 @@ openapi: 3.0.0
 info:
   title: Api Test
   version: '1.0'
+  description: ''
 servers: []
 paths:
   /users:
@@ -12,14 +13,15 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '404':
+          description: Not Found
       operationId: get-users
-      security:
-        - Token: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
 components:
   schemas:
     User:
