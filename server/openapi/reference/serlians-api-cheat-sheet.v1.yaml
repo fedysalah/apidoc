@@ -8,6 +8,18 @@ info:
   description: 'This is an awesome api '
 servers:
   - url: 'http://localhost:3000'
+tags:
+  - name: Serlians
+  - name: Serlian Model
+    x-displayName: Serlian Model
+    description: '<SchemaDefinition schemaRef="#/components/schemas/Serlian"  showReadOnly={true} showWriteOnly={true}/>'
+x-tagGroups:
+  - name: Apis
+    tags:
+      - Serlians
+  - name: Models
+    tags:
+      - Serlian Model
 paths:
   /api/v1/serlians:
     get:
@@ -31,7 +43,7 @@ paths:
                         type: integer
                       nextPage:
                         type: integer
-                        description: '-1 if no next page '
+                        description: '-1 if last page '
                   data:
                     type: array
                     items:
@@ -47,18 +59,33 @@ paths:
                           type: string
                         firstName:
                           type: string
-              examples:
-                Error:
-                  value:
-                    error_description: Values Provided in Otoroshi-Client-Id and/or Otoroshi-Client-Secret are wrong
+              examples: {}
+            application/x-ndjson:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  lastName:
+                    type: string
+                  firstName:
+                    type: string
+                  email:
+                    type: string
+                    format: email
         '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Unauthorized'
+                $ref: '#/components/schemas/ErrorResponse'
         '422':
           description: Unprocessable Entity (WebDAV)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       operationId: listSerlians
       description: 'Lists Serlians by criteria '
       parameters:
@@ -81,7 +108,7 @@ paths:
             format: ''
           in: query
           name: ids
-          description: comma spearated serlian id
+          description: comma spearated serlian ids
         - schema:
             type: string
           in: query
@@ -90,6 +117,14 @@ paths:
             type: string
           in: query
           name: lastName
+        - schema:
+            type: string
+            enum:
+              - application/json
+              - application/x-ndjson
+          in: header
+          name: Accept
+          description: 'When accpet is application/x-ndjson, there will be no pagination and result will be sent as stream'
     post:
       summary: Create new Serlian
       operationId: post-api-v1-serlians
@@ -105,9 +140,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Unauthorized'
+                $ref: '#/components/schemas/ErrorResponse'
         '422':
           description: Unprocessable Entity (WebDAV)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       tags:
         - Serlians
       description: Creates new serlian
@@ -142,7 +181,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Unauthorized'
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Not Found
       operationId: get-api-v1-seralians-serlianId
@@ -162,11 +201,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Unauthorized'
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Not Found
         '422':
           description: Unprocessable Entity (WebDAV)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       description: Patches a Serlian by its id
       tags:
         - Serlians
@@ -192,6 +235,7 @@ paths:
               required:
                 - op
                 - path
+        description: We use Json Patch RFC
     delete:
       summary: Delete a Serlian by Id
       operationId: delete-api-v1-serlians-serlianId
@@ -200,6 +244,10 @@ paths:
           description: No Content
         '401':
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       tags:
         - Serlians
       description: Deletes a Serlian by its id
@@ -211,6 +259,10 @@ paths:
           description: No Content
         '401':
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Not Found
       description: Verifies if Serlian Exists
@@ -255,8 +307,6 @@ components:
         email:
           type: string
           format: email
-        '':
-          type: string
       required:
         - firstName
         - lastName
@@ -269,7 +319,7 @@ components:
       properties:
         id:
           type: string
-          description: mission id
+          description: ''
           format: uuid
         startDate:
           type: string
@@ -291,15 +341,29 @@ components:
               - Scala
         description:
           type: string
-    Unauthorized:
-      title: Unauthorized
+        client:
+          type: string
+          enum:
+            - Maif
+            - Altima
+            - Soregie
+            - MDPA
+      required:
+        - startDate
+        - endDate
+        - client
+    ErrorResponse:
+      title: ErrorResposne
       type: object
+      x-examples:
+        Unauthorised:
+          error_description: Values Provided in Otoroshi-Client-Id and/or Otoroshi-Client-Secret are wrong
+      description: ''
       properties:
+        error:
+          type: string
         error_description:
           type: string
-      x-examples:
-        Error:
-          error_description: Values Provided in Otoroshi-Client-Id and/or Otoroshi-Client-Secret are wrong
   securitySchemes:
     clientId:
       name: Otoroshi-Client-Id
