@@ -1,0 +1,314 @@
+openapi: 3.0.0
+info:
+  title: Serlians-api
+  version: '1.0'
+  contact:
+    name: Serlian Team
+    email: devteam@serli.com
+  description: 'This is an awesome api '
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /api/v1/serlians:
+    get:
+      summary: List Serlians by criteria
+      tags:
+        - Serlians
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                      size:
+                        type: integer
+                      nextPage:
+                        type: integer
+                        description: '-1 if no next page '
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        email:
+                          type: string
+                          format: email
+                        lastName:
+                          type: string
+                        firstName:
+                          type: string
+              examples:
+                Error:
+                  value:
+                    error_description: Values Provided in Otoroshi-Client-Id and/or Otoroshi-Client-Secret are wrong
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      operationId: listSerlians
+      description: 'Lists Serlians by criteria '
+      parameters:
+        - schema:
+            type: integer
+            minimum: 0
+          in: query
+          name: page
+          description: page offset
+        - schema:
+            type: integer
+            default: 50
+            minimum: 1
+            maximum: 100
+          in: query
+          name: size
+          description: page size
+        - schema:
+            type: string
+            format: ''
+          in: query
+          name: ids
+          description: comma spearated serlian id
+        - schema:
+            type: string
+          in: query
+          name: firstName
+        - schema:
+            type: string
+          in: query
+          name: lastName
+    post:
+      summary: Create new Serlian
+      operationId: post-api-v1-serlians
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Serlian'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      tags:
+        - Serlians
+      description: Creates new serlian
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Serlian'
+        description: The serlian to create
+  '/api/v1/serlians/{serlianId}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: serlianId
+        in: path
+        required: true
+        description: ''
+    get:
+      summary: Get a serlian by Id
+      tags:
+        - Serlians
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Serlian'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '404':
+          description: Not Found
+      operationId: get-api-v1-seralians-serlianId
+      description: Gets a Serlain by its Id
+    patch:
+      summary: Patch Serlian by Id
+      operationId: patch-api-v1-serlians-serlianId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Serlian'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '404':
+          description: Not Found
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      description: Patches a Serlian by its id
+      tags:
+        - Serlians
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                op:
+                  type: string
+                  enum:
+                    - replace
+                    - add
+                    - remove
+                path:
+                  type: string
+                  example: /firstName
+                value:
+                  oneOf:
+                    - type: string
+                    - $ref: '#/components/schemas/Mission'
+              required:
+                - op
+                - path
+    delete:
+      summary: Delete a Serlian by Id
+      operationId: delete-api-v1-serlians-serlianId
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+      tags:
+        - Serlians
+      description: Deletes a Serlian by its id
+    head:
+      summary: Verify if Serlian Exists
+      operationId: head-api-v1-serlians-serlianId
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      description: Verifies if Serlian Exists
+      tags:
+        - Serlians
+components:
+  schemas:
+    Serlian:
+      title: Serlian
+      type: object
+      description: The Serlian Model
+      x-tags:
+        - Model
+      properties:
+        id:
+          type: string
+          description: the serlian id
+          format: uuid
+        firstName:
+          type: string
+        lastName:
+          type: string
+        skills:
+          type: array
+          description: serlian skills
+          items:
+            type: string
+            enum:
+              - Java
+              - Scala
+              - Kotlin
+              - Node
+              - Postgres
+              - React
+              - ReactNative
+              - Android
+              - Swift
+        missions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mission'
+        email:
+          type: string
+          format: email
+        '':
+          type: string
+      required:
+        - firstName
+        - lastName
+        - email
+    Mission:
+      title: Mission
+      type: object
+      x-tags:
+        - Model
+      properties:
+        id:
+          type: string
+          description: mission id
+          format: uuid
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        technologies:
+          type: array
+          items:
+            type: string
+            enum:
+              - Spring
+              - Git
+              - Play
+              - React
+              - Node
+              - Kotiin
+              - Scala
+        description:
+          type: string
+    Unauthorized:
+      title: Unauthorized
+      type: object
+      properties:
+        error_description:
+          type: string
+      x-examples:
+        Error:
+          error_description: Values Provided in Otoroshi-Client-Id and/or Otoroshi-Client-Secret are wrong
+  securitySchemes:
+    clientId:
+      name: Otoroshi-Client-Id
+      type: apiKey
+      in: header
+    clientSecret:
+      name: Otoroshi-Client-Secret
+      type: apiKey
+      in: header
+security:
+  - clientId: []
+    clientSecret: []
